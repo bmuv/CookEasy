@@ -13,8 +13,8 @@ CookEasy is a web application that helps users discover delicious recipes based 
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/bmuv/cookeasy.git
-    cd cookeasy
+    git clone https://github.com/bmuv/CookEasy.git
+    cd CookEasy
     ```
 
 2. **Create a virtual environment and activate it:**
