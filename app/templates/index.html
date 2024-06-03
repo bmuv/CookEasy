@@ -1,9 +1,11 @@
-<!-- templates/index.html -->
 {% extends "base.html" %}
 {% block content %}
-    <h1 class="text-4xl text-center mt-10">Welcome to Recipe Generator</h1>
-    <div class="text-center mt-5">
-        <a href="{{ url_for('inventory') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Manage Inventory</a>
-        <a href="{{ url_for('recipes') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Get Recipes</a>
+    <div class="text-center">
+        <h1 class="text-5xl font-bold text-gray-800">Welcome to Recipe Generator</h1>
+        <p class="text-gray-600 mt-4">Easily manage your inventory and find recipes based on the ingredients you have.</p>
+        <div class="mt-8">
+            <a href="{{ url_for('inventory') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Manage Inventory</a>
+            <a href="{{ url_for('recipes') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">Get Recipes</a>
+        </div>
     </div>
 {% endblock %}
