@@ -22,6 +22,39 @@ def inventory():
         return redirect(url_for('inventory'))
     return render_template('inventory.html', form=form)
 
+
+@app.route('/inventory/edit/<int:item_id>', methods=['GET', 'POST'])
+@login_required
+def edit_inventory(item_id):
+    item = Inventory.query.get_or_404(item_id)
+    if item.owner != current_user:
+        flash('You do not have permission to edit this item.', 'danger')
+        return redirect(url_for('inventory'))
+    form = InventoryForm()
+    if form.validate_on_submit():
+        item.ingredient = form.ingredient.data
+        item.quantity = form.quantity.data
+        db.session.commit()
+        flash('Inventory item updated successfully!', 'success')
+        return redirect(url_for('inventory'))
+    elif request.method == 'GET':
+        form.ingredient.data = item.ingredient
+        form.quantity.data = item.quantity
+    return render_template('edit_inventory.html', form=form)
+
+@app.route('/inventory/delete/<int:item_id>')
+@login_required
+def delete_inventory(item_id):
+    item = Inventory.query.get_or_404(item_id)
+    if item.owner != current_user:
+        flash('You do not have permission to delete this item.', 'danger')
+        return redirect(url_for('inventory'))
+    db.session.delete(item)
+    db.session.commit()
+    flash('Inventory item deleted successfully!', 'success')
+    return redirect(url_for('inventory'))
+
+
 @app.route('/recipes')
 @login_required
 def recipes():
