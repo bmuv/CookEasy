@@ -4,6 +4,7 @@ from app.forms import InventoryForm, RegistrationForm, LoginForm
 from app.models import User, Inventory
 from app.utils.spoonacular import fetch_recipes
 from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 
 @app.route('/')
 @app.route('/home')
@@ -68,6 +69,7 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, method='sha256')
         user = User(username=form.username.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -82,7 +84,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.password == form.password.data:
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             return redirect(url_for('home'))
         else:
