@@ -7,14 +7,8 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
-def get_sqlite_uri():
-    prod_dir = os.path.join(os.getcwd(), "app.db")
-    if os.environ.get("FLASK_ENV") == "production":
-        return "sqlite:///{}".format(prod_dir)
-    else:
-        return "sqlite:///{}".format(os.path.join(os.getcwd(), "app.db"))
 
-app.config['SQLALCHEMY_DATABASE_URI'] = get_sqlite_uri()
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
